@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>JOY STORE | Official Store</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         /* --- VARIÁVEIS E CORES --- */
         :root {
@@ -15,17 +17,23 @@
             --sidebar-width: 280px;
             --cart-width: 320px;
             --success-color: #25D366;
-            --border-radius: 12px; /* Arredondamento premium */
+            --border-radius: 12px;
         }
 
         /* --- RESET GLOBAL --- */
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--white);
             color: var(--text-main);
             overflow-x: hidden;
-            line-height: 1.5;
+            line-height: 1.4;
         }
 
         /* --- CABEÇALHO --- */
@@ -34,162 +42,186 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: #fff;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid #eee;
             position: sticky;
             top: 0;
             z-index: 1001;
+            height: 65px;
         }
 
         header h1 {
             margin: 0;
-            font-size: 1.3rem;
-            letter-spacing: 4px;
+            font-size: 1.2rem;
+            letter-spacing: 5px;
             font-weight: 900;
             flex-grow: 1;
             text-align: center;
             cursor: pointer;
+            text-transform: uppercase;
         }
 
         .icon-btn {
             background: none;
             border: none;
             cursor: pointer;
-            padding: 10px;
+            padding: 8px;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 44px;
+            width: 40px;
         }
 
-        .menu-toggle { display: flex; flex-direction: column; gap: 4px; }
-        .menu-toggle span { display: block; width: 22px; height: 2px; background: #000; }
+        .menu-toggle { display: flex; flex-direction: column; gap: 5px; }
+        .menu-toggle span { display: block; width: 22px; height: 1.5px; background: #000; transition: 0.3s; }
 
         .cart-count {
-            position: absolute; top: 2px; right: 2px;
+            position: absolute; top: 0; right: 0;
             background: red; color: white; font-size: 0.6rem;
-            width: 16px; height: 16px; border-radius: 50%;
+            width: 17px; height: 17px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center; font-weight: bold;
         }
 
-        /* --- MENU --- */
+        /* --- MENU LATERAL --- */
         nav {
-            position: fixed; top: 0; left: calc(-1 * var(--sidebar-width));
+            position: fixed; top: 0; left: -100%;
             width: var(--sidebar-width); height: 100vh;
-            background: #fff; z-index: 2000; display: flex; flex-direction: column; padding: 20px;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #fff; z-index: 2000; display: flex; flex-direction: column; padding: 25px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 10px 0 30px rgba(0,0,0,0.1);
         }
-        nav.open { transform: translateX(var(--sidebar-width)); }
-        .nav-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .nav-link { text-decoration: none; color: var(--text-main); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; padding: 12px 15px; margin-bottom: 5px; border-radius: var(--border-radius); cursor: pointer; transition: 0.3s; }
-        .nav-link.active { background-color: #f9f9f9; }
+        nav.open { left: 0; }
+        .nav-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .nav-link { 
+            text-decoration: none; color: var(--text-main); font-size: 0.85rem; font-weight: 700; 
+            text-transform: uppercase; padding: 15px; margin-bottom: 5px; border-radius: 8px; 
+            cursor: pointer; transition: 0.3s; display: block;
+        }
+        /* REMOVIDA A BORDA PRETA LATERAL */
+        .nav-link.active { background-color: #f5f5f5; color: var(--accent-color); }
 
         /* --- CARRINHO --- */
         #cart-drawer {
-            position: fixed; top: 0; right: calc(-1 * var(--cart-width));
-            width: var(--cart-width); height: 100vh;
+            position: fixed; top: 0; right: -100%;
+            width: 100%; max-width: var(--cart-width); height: 100vh;
             background: #fff; z-index: 2000; display: flex; flex-direction: column;
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: -10px 0 30px rgba(0,0,0,0.1);
         }
-        #cart-drawer.open { transform: translateX(calc(-1 * var(--cart-width))); }
+        #cart-drawer.open { right: 0; }
         .cart-header { padding: 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
         .cart-items { flex: 1; overflow-y: auto; padding: 15px; }
-        .cart-item { display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 1px solid #f9f9f9; padding-bottom: 10px; }
-        .cart-item img { width: 60px; height: 80px; object-fit: cover; border-radius: 4px; }
-        .cart-item-name { font-size: 0.8rem; font-weight: 700; }
-        .cart-item-price { font-size: 0.85rem; font-weight: 800; margin-top: 5px; }
-        .cart-footer { padding: 20px; border-top: 1px solid #eee; background: #fdfdfd; }
-        .cart-total { display: flex; justify-content: space-between; margin-bottom: 15px; font-weight: 900; font-size: 1.1rem; }
+        .cart-item { display: flex; gap: 12px; margin-bottom: 15px; border-bottom: 1px solid #f9f9f9; padding-bottom: 12px; }
+        .cart-item img { width: 55px; height: 75px; object-fit: cover; border-radius: 6px; }
+        .cart-item-name { font-size: 0.8rem; font-weight: 700; line-height: 1.2; margin-bottom: 4px; }
+        .cart-item-price { font-size: 0.85rem; font-weight: 800; }
+        .cart-footer { padding: 25px; border-top: 1px solid #eee; background: #fff; }
         
         .btn-checkout { 
-            background: var(--success-color); color: white; border: none; width: 100%; padding: 15px; font-weight: 800; text-transform: uppercase; cursor: pointer; border-radius: var(--border-radius);
+            background: var(--success-color); color: white; border: none; width: 100%; padding: 16px; 
+            font-weight: 800; text-transform: uppercase; cursor: pointer; border-radius: var(--border-radius);
+            font-size: 0.85rem; letter-spacing: 1px;
         }
 
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1500; display: none; }
-        .overlay.active { display: block; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1500; display: none; opacity: 0; transition: 0.3s; }
+        .overlay.active { display: block; opacity: 1; }
+
+        /* --- CARROSSEL HOME --- */
+        .carousel-container { width: 100%; height: 70vh; position: relative; overflow: hidden; background: #000; }
+        .carousel-track { display: flex; height: 100%; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); will-change: transform; }
+        .carousel-slide { min-width: 100%; height: 100%; }
+        .carousel-slide img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; display: block; }
 
         /* --- VITRINE (CATEGORIAS) --- */
         #category-view { display: none; padding-bottom: 60px; }
         .category-header { text-align: center; padding: 40px 20px; }
-        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; max-width: 1000px; margin: 0 auto; padding: 0 15px; }
+        .category-header h2 { font-size: 1.1rem; font-weight: 900; text-transform: uppercase; letter-spacing: 3px; }
+        
+        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
         .product-card-vitrine { display: flex; flex-direction: column; cursor: pointer; transition: 0.3s; }
-        .vitrine-img-box { aspect-ratio: 2/3; background: #f9f9f9; overflow: hidden; border-radius: 8px; }
+        .vitrine-img-box { aspect-ratio: 2/3; background: #f9f9f9; overflow: hidden; border-radius: 10px; }
         .vitrine-img-box img { width: 100%; height: 100%; object-fit: cover; }
-        .vitrine-info { padding: 10px 0; }
-        .vitrine-name { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #444; height: 2.8em; overflow: hidden; }
-        .vitrine-price { font-size: 1rem; font-weight: 900; margin-top: 5px; }
+        .vitrine-info { padding: 12px 0; }
+        .vitrine-name { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: #444; height: 2.8em; overflow: hidden; margin-bottom: 4px; }
+        .vitrine-price { font-size: 1rem; font-weight: 900; }
 
-        /* --- DETALHES DO PRODUTO (LAYOUT VERTICALIZADO) --- */
-        #product-detail-view { display: none; padding: 20px; max-width: 950px; margin: 0 auto; }
-        .breadcrumb { font-size: 0.7rem; color: #999; margin-bottom: 20px; text-transform: uppercase; cursor: pointer; }
-        .detail-layout { display: flex; flex-direction: column; gap: 20px; }
+        /* --- DETALHES DO PRODUTO --- */
+        #product-detail-view { display: none; padding: 20px; max-width: 900px; margin: 0 auto; }
+        .breadcrumb { font-size: 0.7rem; color: #999; margin-bottom: 25px; text-transform: uppercase; cursor: pointer; font-weight: 700; }
+        .detail-layout { display: flex; flex-direction: column; gap: 25px; }
 
-        /* Galeria e Imagem mais estreita e comprida */
-        .detail-gallery { display: flex; gap: 12px; flex: 1.2; }
-        .detail-thumbs { display: flex; flex-direction: column; gap: 8px; width: 55px; }
-        .detail-thumbs img { width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid #eee; cursor: pointer; opacity: 0.6; border-radius: 6px; }
+        .detail-gallery { display: flex; gap: 15px; }
+        .detail-thumbs { display: flex; flex-direction: column; gap: 10px; width: 60px; }
+        .detail-thumbs img { width: 100%; aspect-ratio: 1; object-fit: cover; border: 1.5px solid #eee; cursor: pointer; opacity: 0.6; border-radius: 6px; }
         .detail-thumbs img.active { opacity: 1; border-color: #000; }
         
         .detail-main-img { 
             flex: 1; 
-            aspect-ratio: 2/3; /* IMAGEM MAIS COMPRIDA */
+            aspect-ratio: 2/3.2;
             background: #f9f9f9; 
             cursor: zoom-in; 
-            border-radius: 10px; 
+            border-radius: 12px; 
             overflow: hidden; 
         }
         .detail-main-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-        /* Info Direita mais estreita */
-        .detail-info { flex: 0.8; padding-left: 10px; }
-        .detail-brand { font-size: 0.75rem; font-weight: 700; color: #aaa; text-transform: uppercase; margin-bottom: 5px; }
-        .detail-title { font-size: 1.3rem; font-weight: 900; line-height: 1.1; margin-bottom: 10px; text-transform: uppercase; }
-        .detail-price { font-size: 1.7rem; font-weight: 900; margin: 15px 0; border-top: 1px solid #eee; padding-top: 15px; }
+        .detail-info { flex: 1; padding: 0 5px; }
+        .detail-brand { font-size: 0.7rem; font-weight: 800; color: #bbb; text-transform: uppercase; margin-bottom: 6px; }
+        .detail-title { font-size: 1.4rem; font-weight: 900; line-height: 1.1; margin-bottom: 12px; text-transform: uppercase; }
+        .detail-price { font-size: 1.8rem; font-weight: 900; margin-bottom: 25px; padding-top: 20px; border-top: 1px solid #f0f0f0; }
 
-        /* Seletores Compactos */
-        .option-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: block; }
-        .size-grid, .color-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+        .option-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; margin-bottom: 12px; display: block; }
+        .size-grid, .color-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 25px; }
         
-        .size-btn { border: 1px solid #ddd; padding: 8px; min-width: 48px; text-align: center; cursor: pointer; font-weight: 700; font-size: 0.8rem; border-radius: 8px; transition: 0.2s; }
+        .size-btn { border: 1.5px solid #ddd; padding: 12px; min-width: 52px; text-align: center; cursor: pointer; font-weight: 800; font-size: 0.85rem; border-radius: 10px; transition: 0.2s; }
         .size-btn.active { background: #000; color: #fff; border-color: #000; }
 
-        .color-circle { width: 28px; height: 28px; border-radius: 50%; border: 1px solid #ddd; cursor: pointer; position: relative; transition: 0.2s; }
-        .color-circle.active { border: 2px solid #000; outline: 1px solid #000; outline-offset: 2px; }
+        .color-circle { width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid #ddd; cursor: pointer; position: relative; transition: 0.2s; }
+        .color-circle.active { border: 2px solid #000; outline: 1px solid #000; outline-offset: 3px; }
 
-        /* BOTÃO ADICIONAR AO CARRINHO PREMIUM */
         .btn-add-cart-large { 
-            background: #000; color: #fff; border: none; padding: 18px; width: 100%; 
-            font-weight: 900; font-size: 0.9rem; text-transform: uppercase; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 5px;
+            background: #000; color: #fff; border: none; padding: 20px; width: 100%; 
+            font-weight: 900; font-size: 0.95rem; text-transform: uppercase; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 12px;
             border-radius: var(--border-radius); 
             transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-        .btn-add-cart-large:hover { background: #333; transform: scale(1.02); }
+        .btn-add-cart-large:hover { background: #1a1a1a; transform: translateY(-3px); }
 
         /* --- ZOOM --- */
-        #image-viewer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 4000; display: none; align-items: center; justify-content: center; }
-        #image-viewer img { max-width: 90%; max-height: 90%; object-fit: contain; }
+        #image-viewer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 4000; display: none; align-items: center; justify-content: center; }
+        #image-viewer img { max-width: 92%; max-height: 90%; object-fit: contain; }
 
         /* --- RODAPÉ --- */
-        footer { background: #000; color: #fff; padding: 60px 20px 40px; margin-top: 0; }
-        .footer-content { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 30px; }
-        .footer-section h4 { text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; margin-bottom: 20px; font-weight: 900; }
-        .footer-section p { font-size: 0.75rem; line-height: 1.6; color: #ccc; }
-        .footer-bottom { max-width: 1000px; margin: 40px auto 0; padding-top: 25px; border-top: 1px solid #222; text-align: center; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; opacity: 0.6; }
+        footer { background: #000; color: #fff; padding: 70px 25px 40px; margin-top: 0; }
+        .footer-content { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 40px; }
+        .footer-section h4 { text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem; margin-bottom: 25px; font-weight: 900; }
+        .footer-section p, .footer-links li { font-size: 0.8rem; line-height: 1.6; color: #aaa; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 12px; cursor: pointer; transition: 0.2s; }
+        .footer-bottom { max-width: 1000px; margin: 50px auto 0; padding-top: 30px; border-top: 1px solid #222; text-align: center; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; opacity: 0.5; }
 
+        /* --- AJUSTES DESKTOP --- */
         @media (min-width: 768px) {
             .menu-toggle { display: none; }
-            header { padding: 20px 40px; }
-            nav { position: static; width: 100%; height: auto; flex-direction: row; justify-content: center; padding: 15px 0; box-shadow: none; transform: none !important; gap: 40px; border-bottom: 1px solid #eee; background: #fff; }
+            header { padding: 0 60px; height: 80px; }
+            header h1 { font-size: 1.6rem; }
+            
+            nav { 
+                position: static; width: 100%; height: auto; flex-direction: row; 
+                justify-content: center; padding: 0; box-shadow: none; transform: none !important; 
+                gap: 50px; border-bottom: 1px solid #eee; background: #fff;
+            }
             .nav-header { display: none !important; } 
-            .nav-link { background-color: transparent !important; padding: 5px 10px; font-size: 0.75rem; }
-            .nav-link.active { border-bottom: 2px solid #000; border-radius: 0; }
-            .product-grid { grid-template-columns: repeat(4, 1fr); }
-            .detail-layout { flex-direction: row; align-items: flex-start; }
+            .nav-link { background-color: transparent !important; padding: 15px 0; font-size: 0.8rem; border-radius: 0; border-left: none; }
+            /* REMOVIDA A BORDA PRETA INFERIOR */
+            .nav-link.active { color: var(--accent-color); font-weight: 900; }
+            
+            .product-grid { grid-template-columns: repeat(4, 1fr); gap: 30px; }
+            .detail-layout { flex-direction: row; align-items: flex-start; gap: 40px; }
             .footer-content { grid-template-columns: repeat(4, 1fr); }
         }
     </style>
@@ -198,6 +230,7 @@
 
 <div class="overlay" id="overlay" onclick="closeAllMenus()"></div>
 
+<!-- VISUALIZADOR ZOOM -->
 <div id="image-viewer" onclick="this.style.display='none'">
     <img id="full-image" src="">
 </div>
@@ -208,39 +241,43 @@
     </button>
     <h1 onclick="goToHome()">JOY STORE</h1>
     <button class="icon-btn" onclick="toggleCart()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
         <span class="cart-count" id="cart-badge">0</span>
     </button>
 </header>
 
-<div id="toast" style="position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#333; color:#fff; padding:12px 25px; border-radius:30px; display:none; z-index:5000; font-size: 0.8rem;">Item adicionado!</div>
+<div id="toast" style="position:fixed; bottom:30px; left:50%; transform:translateX(-50%); background:#000; color:#fff; padding:15px 30px; border-radius:40px; display:none; z-index:5000; font-size: 0.85rem; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">Item adicionado!</div>
 
 <nav id="sidebar">
-    <div class="nav-header"><span style="font-weight:900;">MENU</span><button class="icon-btn" onclick="closeAllMenus()">✕</button></div>
+    <div class="nav-header"><span style="font-weight:900; letter-spacing: 2px;">MENU</span><button class="icon-btn" onclick="closeAllMenus()">✕</button></div>
     <div class="nav-link active" id="link-home" onclick="goToHome()">Home</div>
     <div class="nav-link" id="link-fitness" onclick="showCategory('fitness')">Fitness</div>
     <div class="nav-link" id="link-casual" onclick="showCategory('casual')">Moda Íntima</div>
 </nav>
 
 <aside id="cart-drawer">
-    <div class="cart-header"><h3 style="font-size:0.9rem; font-weight:900;">CARRINHO</h3><button class="icon-btn" onclick="toggleCart()">✕</button></div>
+    <div class="cart-header"><h3 style="font-size:0.85rem; font-weight:900; letter-spacing: 1px;">O SEU CARRINHO</h3><button class="icon-btn" onclick="toggleCart()">✕</button></div>
     <div class="cart-items" id="cart-items-container"></div>
     <div class="cart-footer">
-        <div style="display:flex; justify-content:space-between; margin-bottom:15px; font-weight:900;"><span>TOTAL:</span><span id="cart-total-value">R$ 0,00</span></div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-weight:900; font-size: 1.1rem;"><span>TOTAL:</span><span id="cart-total-value">R$ 0,00</span></div>
         <button class="btn-checkout" onclick="checkoutWhatsApp()">Finalizar via WhatsApp</button>
     </div>
 </aside>
 
-<!-- HOME: BANNER VERTICALIZADO -->
+<!-- HOME -->
 <main id="home-view">
-    <div style="height:75vh; overflow:hidden; background:#000">
-        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1200" style="width:100%; height:100%; object-fit:cover; opacity:0.8; display: block;">
+    <div class="carousel-container">
+        <div class="carousel-track" id="mainCarousel">
+            <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1200" alt="Banner 1"></div>
+            <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=1200" alt="Banner 2"></div>
+            <div class="carousel-slide"><img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200" alt="Banner 3"></div>
+        </div>
     </div>
 </main>
 
 <!-- CATEGORIA -->
 <main id="category-view">
-    <div class="category-header"><h2 id="cat-title-display" style="text-transform:uppercase; font-weight:900; letter-spacing:3px;"></h2></div>
+    <div class="category-header"><h2 id="cat-title-display"></h2></div>
     <div class="product-grid" id="category-grid"></div>
 </main>
 
@@ -249,12 +286,12 @@
 
 <footer>
     <div class="footer-content">
-        <div class="footer-section"><h4>Sobre a Joy Store</h4><p>Sua loja oficial de moda fitness e casual. Qualidade, estilo e performance em cada peça.</p></div>
-        <div class="footer-section"><h4>Navegação</h4><p>Home<br>Fitness<br>Moda Íntima</p></div>
-        <div class="footer-section"><h4>Ajuda</h4><p>Trocas<br>Tamanhos</p></div>
-        <div class="footer-section"><h4>Contacto</h4><p>(91) 99999-9999</p></div>
+        <div class="footer-section"><h4>Sobre a Joy Store</h4><p>Sua loja oficial de moda fitness e casual. Qualidade, estilo e performance em cada peça única.</p></div>
+        <div class="footer-section"><h4>Navegação</h4><ul class="footer-links"><li onclick="goToHome()">Home</li><li onclick="showCategory('fitness')">Fitness</li><li onclick="showCategory('casual')">Moda Íntima</li></ul></div>
+        <div class="footer-section"><h4>Ajuda</h4><ul class="footer-links"><li>Trocas</li><li>Guia de Tamanhos</li><li>Privacidade</li></ul></div>
+        <div class="footer-section"><h4>Contacto</h4><ul class="footer-links"><li>(91) 99999-9999</li><li>contato@joystore.com.br</li></ul></div>
     </div>
-    <div class="footer-bottom"><p>© 2024 JOY STORE. TODOS OS DIREITOS RESERVADOS.</p></div>
+    <div class="footer-bottom"><p>© 2026 JOY STORE. TODOS OS DIREITOS RESERVADOS.</p></div>
 </footer>
 
 <script>
@@ -267,7 +304,7 @@
                 'https://github.com/eder201318/fotos/blob/main/IMG-20260206-WA0058.jpg?raw=true'
             ],
             sizes: ['P', 'M', 'G'],
-            colors: [{name: 'Preto', hex: '#000'}, {name: 'Cinza', hex: '#888'}]
+            colors: [{name: 'Preto', hex: '#000'}, {name: 'Bronze', hex: '#8b7355'}]
         },
         {
             id: 'fit3', category: 'fitness', name: 'Legging High Power Sculpt', priceNumeric: 129.90,
@@ -292,11 +329,23 @@
     let selectedSize = null;
     let selectedColor = null;
 
+    // --- CARROSSEL AUTOMÁTICO ---
+    let currentSlide = 0;
+    const slideCount = 3;
+    function runCarousel() {
+        const track = document.getElementById('mainCarousel');
+        if (!track) return;
+        currentSlide = (currentSlide + 1) % slideCount;
+        track.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
+    let carouselInterval = setInterval(runCarousel, 4000);
+
+    // --- NAVEGAÇÃO ---
     function goToHome() {
         hideAllViews();
         document.getElementById('home-view').style.display = 'block';
         updateNavLinks('home');
-        window.scrollTo(0,0);
+        window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
     function showCategory(cat) {
@@ -306,7 +355,7 @@
         document.getElementById('cat-title-display').innerText = cat === 'casual' ? 'Moda Íntima' : 'Fitness';
         updateNavLinks(cat);
         renderCategoryGrid(cat);
-        window.scrollTo(0,0);
+        window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
     function renderCategoryGrid(filter) {
@@ -314,7 +363,7 @@
         const items = products.filter(p => p.category === filter);
         grid.innerHTML = items.map(p => `
             <div class="product-card-vitrine" onclick="openDetail('${p.id}')">
-                <div class="vitrine-img-box"><img src="${p.images[0]}"></div>
+                <div class="vitrine-img-box"><img src="${p.images[0]}" alt="${p.name}"></div>
                 <div class="vitrine-info">
                     <div class="vitrine-name">${p.name}</div>
                     <div class="vitrine-price">R$ ${p.priceNumeric.toFixed(2)}</div>
@@ -360,7 +409,7 @@
                     </div>
                     
                     <button class="btn-add-cart-large" onclick="addToCart()">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                         Adicionar ao Carrinho
                     </button>
                 </div>
@@ -368,6 +417,7 @@
         `;
     }
 
+    // --- INTERAÇÕES PRODUTO ---
     function changeImg(src, el) {
         document.getElementById('detail-main-img-frame').src = src;
         el.parentElement.querySelectorAll('img').forEach(img => img.classList.remove('active'));
@@ -388,7 +438,7 @@
 
     function addToCart() {
         if (!selectedSize || !selectedColor) {
-            alert("Por favor, selecione tamanho e cor!");
+            showToast("Por favor, selecione tamanho e cor!");
             return;
         }
         cart.push({
@@ -401,20 +451,32 @@
         });
         updateCartUI();
         toggleCart();
+        showToast("Adicionado com sucesso!");
     }
 
+    // --- CARRINHO & WHATSAPP ---
     function updateCartUI() {
         const container = document.getElementById('cart-items-container');
         document.getElementById('cart-badge').innerText = cart.length;
         let total = 0;
         if (cart.length === 0) {
-            container.innerHTML = `<p style="text-align:center; color:#999; margin-top:50px; font-size:0.8rem">Carrinho vazio.</p>`;
+            container.innerHTML = `<p style="text-align:center; color:#999; margin-top:50px; font-size:0.8rem">O seu carrinho está vazio.</p>`;
             document.getElementById('cart-total-value').innerText = "R$ 0,00";
             return;
         }
         container.innerHTML = cart.map(item => {
             total += item.price;
-            return `<div class="cart-item"><img src="${item.img}"><div style="flex:1"><div class="cart-item-name">${item.name}</div><div style="font-size:0.7rem; color:#888">${item.size} | ${item.color}</div><div style="font-weight:900">R$ ${item.price.toFixed(2)}</div></div><button onclick="removeItem(${item.cartId})" style="color:red; border:none; background:none; cursor:pointer; font-size:1.2rem">✕</button></div>`;
+            return `
+                <div class="cart-item">
+                    <img src="${item.img}">
+                    <div style="flex:1">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div style="font-size:0.7rem; color:#888">${item.size} | ${item.color}</div>
+                        <div style="font-weight:900">R$ ${item.price.toFixed(2)}</div>
+                    </div>
+                    <button onclick="removeItem(${item.cartId})" style="color:red; border:none; background:none; cursor:pointer; font-size:1.1rem; padding: 5px;">✕</button>
+                </div>
+            `;
         }).join('');
         document.getElementById('cart-total-value').innerText = `R$ ${total.toFixed(2)}`;
     }
@@ -436,9 +498,11 @@
         });
         msg += `--------------------------\n*Total: R$ ${total.toFixed(2)}*`;
         window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+        
         cart = []; updateCartUI(); closeAllMenus();
     }
 
+    // --- UTILITÁRIOS ---
     function hideAllViews() {
         document.getElementById('home-view').style.display = 'none';
         document.getElementById('category-view').style.display = 'none';
@@ -466,6 +530,13 @@
         const v = document.getElementById('image-viewer');
         document.getElementById('full-image').src = src;
         v.style.display = 'flex';
+    }
+
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        t.innerText = msg;
+        t.style.display = 'block';
+        setTimeout(() => { t.style.display = 'none'; }, 2500);
     }
 
     window.onload = () => goToHome();
